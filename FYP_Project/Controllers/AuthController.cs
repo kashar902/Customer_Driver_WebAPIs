@@ -1,17 +1,17 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using BL.DataModel.IBusinessLogic;
 using BL.Models;
-using DAL.GenericRepositoryData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace FYP_Project.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+//AUTH COntroller
 public class AuthController : ControllerBase
 {
     private readonly IAuthBL _data;
@@ -23,22 +23,22 @@ public class AuthController : ControllerBase
         _configuration = configuration;
     }
 
-    
-    
+
+
     [AllowAnonymous]
     [HttpGet("user/login")]
     public async Task<IActionResult> Login(string Email, string Password)
     {
         if (string.IsNullOrWhiteSpace(Email)) return BadRequest("Email Required!");
         if (string.IsNullOrWhiteSpace(Password)) return BadRequest("Password Required!");
-        
+
         var result = await _data.GetDataforAuth(Email, Password);
-        
-        if (result is null) 
+
+        if (result is null)
             return Unauthorized("Invalid credentials.");
-        
+
         var jwt = GenerateJwt(result.UserId.ToString(), Email, result!.RoleName!);
-        
+
         Login loginresponse = new()
         {
             UserId = result.UserId,
@@ -50,7 +50,7 @@ public class AuthController : ControllerBase
 
         return Ok(loginresponse);
     }
-    
+
     private string GenerateJwt(string userId, string email, string role)
     {
         SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetValue<string>("Jwt:Key")));
