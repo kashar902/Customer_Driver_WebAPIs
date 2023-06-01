@@ -1,11 +1,13 @@
 
 
-using System.Text;
+using BL.DataModel.BusinessLogic;
+using BL.DataModel.IBusinessLogic;
 using DAL.IServices;
 using DAL.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +25,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IGenericCrudService, GenericCrudService>();
+builder.Services.AddScoped<IAuthBL, AuthBL>();
+builder.Services.AddScoped<IMailService, MailService>();
+builder.Services.AddScoped<IOtpService, OtpService>();
 
 #region JWT & Swagger 3rd Party Impllementation
 

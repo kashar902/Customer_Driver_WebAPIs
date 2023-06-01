@@ -19,7 +19,7 @@ private readonly IConfiguration _config;
         string sp,
         U parameters)
     {
-        using IDbConnection con = new SqlConnection(_config.GetConnectionString("MossYogaConStr"));
+        using IDbConnection con = new SqlConnection(_config.GetConnectionString("Con_Str"));
         if (con.State != ConnectionState.Open) con.Open();
 
         return await con.QueryAsync<T>(
@@ -32,7 +32,7 @@ private readonly IConfiguration _config;
     string sp,
     T parameters)
     {
-        using IDbConnection con = new SqlConnection(_config.GetConnectionString("MossYogaConStr"));
+        using IDbConnection con = new SqlConnection(_config.GetConnectionString("Con_Str"));
         if (con.State != ConnectionState.Open) con.Open();
 
         await con.ExecuteAsync(
