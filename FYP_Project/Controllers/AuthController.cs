@@ -68,11 +68,11 @@ public class AuthController : ControllerBase
             IsHtmlBody = false,
         };
 
-        string mailresponse = await _mailService.Sendmail(mailClassModel, _configuration["Credentials:EmailToSendMail"]!,
+        string mailResponse = await _mailService.Sendmail(mailClassModel, _configuration["Credentials:EmailToSendMail"]!,
             _configuration["Credentials:Password"]!);
 
 
-        if (mailresponse.Equals("Mail Sent Succefully!"))
+        if (mailResponse.Equals("Mail Sent Succefully!"))
             return Ok("SignUp Successful, Verify OTP!");
 
         return Content("Issue Occur in Signing you up, Try Again!");

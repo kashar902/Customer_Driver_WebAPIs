@@ -29,6 +29,7 @@ builder.Services.AddScoped<IAuthBL, AuthBL>();
 builder.Services.AddScoped<IMailService, MailService>();
 builder.Services.AddScoped<IOtpService, OtpService>();
 builder.Services.AddScoped<IRideBookingByCustomer, RideBookingByCustomerBl>();
+builder.Services.AddScoped<IDriverBL, DriverBL>();
 
 #region JWT & Swagger 3rd Party Impllementation
 
