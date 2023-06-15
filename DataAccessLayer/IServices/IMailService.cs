@@ -1,6 +1,6 @@
-using DAL.GlobalModels;
+using DataAccessLayer.GlobalModels;
 
-namespace DAL.IServices;
+namespace DataAccessLayer.IServices;
 
 public interface IMailService
 {

@@ -1,7 +1,7 @@
 using BL.DataModel.IBusinessLogic;
 using BL.Models;
 using BL.Models.DTOs;
-using DAL.IServices;
+using DataAccessLayer.IServices;
 
 namespace BL.DataModel.BusinessLogic;
 

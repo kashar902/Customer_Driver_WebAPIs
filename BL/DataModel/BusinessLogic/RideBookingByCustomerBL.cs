@@ -2,7 +2,7 @@
 
 using BL.DataModel.IBusinessLogic;
 using BL.Models;
-using DAL.IServices;
+using DataAccessLayer.IServices;
 using Newtonsoft.Json;
 
 namespace BL.DataModel.BusinessLogic;

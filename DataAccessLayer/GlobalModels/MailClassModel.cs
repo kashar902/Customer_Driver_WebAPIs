@@ -1,4 +1,4 @@
-namespace DAL.GlobalModels;
+namespace DataAccessLayer.GlobalModels;
 
 public class MailClassModel
 {

@@ -1,4 +1,4 @@
-namespace DAL.GlobalAndCommon;
+namespace DataAccessLayer.GlobalAndCommon;
 
 public static class GlobalVariables
 {

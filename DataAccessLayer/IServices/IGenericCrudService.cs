@@ -1,4 +1,4 @@
-﻿namespace DAL.IServices;
+﻿namespace DataAccessLayer.IServices;
 
 public interface IGenericCrudService
 {

@@ -1,10 +1,10 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
-using DAL.IServices;
 using Dapper;
+using DataAccessLayer.IServices;
 using Microsoft.Extensions.Configuration;
 
-namespace DAL.Services;
+namespace DataAccessLayer.Services;
 
 public class GenericCrudService : IGenericCrudService
 {

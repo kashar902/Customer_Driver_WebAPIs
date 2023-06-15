@@ -1,4 +1,4 @@
-namespace DAL.GenericRepositoryData;
+namespace DataAccessLayer.GenericRepositoryData;
 
 public interface IDataRepository<T> where T : class
 {

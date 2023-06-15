@@ -1,7 +1,7 @@
-using DAL.GlobalAndCommon;
-using DAL.IServices;
+using DataAccessLayer.GlobalAndCommon;
+using DataAccessLayer.IServices;
 
-namespace DAL.Services;
+namespace DataAccessLayer.Services;
 
 public class OtpService: IOtpService
 {

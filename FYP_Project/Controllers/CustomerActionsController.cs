@@ -10,11 +10,11 @@ namespace FYP_Project.Controllers;
 [ApiController]
 public class CustomerActionsController : ControllerBase
 {
-    private readonly IRideBookingByCustomer _data;
+    private readonly IRideBookingByCustomer _rideBookingData;
 
     public CustomerActionsController(IRideBookingByCustomer data)
     {
-        _data = data;
+        _rideBookingData = data;
     }
 
     [HttpPost("booking")]
@@ -36,7 +36,7 @@ public class CustomerActionsController : ControllerBase
             Price = request.Price
         };
 
-        await _data.BookRideByCustomemr(model);
+        await _rideBookingData.BookRideByCustomemr(model);
         return Ok();
     }
 
@@ -44,7 +44,7 @@ public class CustomerActionsController : ControllerBase
     [HttpGet("Booking/{id}")]
     public async Task<IActionResult> GetById(string id)
     {
-        var response = await _data.GetById(id);
+        var response = await _rideBookingData.GetById(id);
         if (response?.CustomerId != 1)
         {
             return Content($"Booking {id} not Found!");
@@ -56,7 +56,7 @@ public class CustomerActionsController : ControllerBase
     [HttpGet("Booking")]
     public async Task<IActionResult> GetById()
     {
-        var response = await _data.GetAll();
+        var response = await _rideBookingData.GetAll();
         if (response?.Count() == 0)
         {
             return Content($"No Booking Available!");

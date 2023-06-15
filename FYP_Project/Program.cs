@@ -2,12 +2,12 @@
 
 using BL.DataModel.BusinessLogic;
 using BL.DataModel.IBusinessLogic;
-using DAL.IServices;
-using DAL.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using DataAccessLayer.IServices;
+using DataAccessLayer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -84,11 +84,10 @@ builder.Services.AddSwaggerGen(option =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
 app.UseStaticFiles();
 
 app.UseCors(options =>

@@ -1,41 +1,44 @@
-using BL.DataModel.IBusinessLogic;
-using BL.Models;
-using BL.Models.DTOs;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using BL.DataModel.IBusinessLogic;
+using BL.Models;
+using BL.Models.DTOs;
 using DataAccessLayer.GlobalModels;
 using DataAccessLayer.IServices;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace FYP_Project.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-//AUTH COntroller
-public class AuthController : ControllerBase
+public class TestController : ControllerBase
 {
+    
     private readonly IAuthBL _data;
     private readonly IConfiguration _configuration;
     private readonly IMailService _mailService;
     private readonly IOtpService _otpService;
-
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IRideBookingByCustomer _rideBookingData;
+    private readonly IDriverBL _logic;    
 
-    public AuthController(IAuthBL data, IConfiguration configuration, IMailService mailService, IOtpService otpService, IWebHostEnvironment webHostEnvironment)
+    public TestController(IAuthBL data, IConfiguration configuration, IMailService mailService, IOtpService otpService, IWebHostEnvironment webHostEnvironment, IRideBookingByCustomer rideBookingData, IDriverBL logic)
     {
         _data = data;
         _configuration = configuration;
         _mailService = mailService;
         _otpService = otpService;
         _webHostEnvironment = webHostEnvironment;
+        _rideBookingData = rideBookingData;
+        _logic = logic;
     }
-
+    
     [AllowAnonymous]
-    [HttpPost("u/r/Signup")]
+    [HttpPost("u/r/c/Signup")]
     public async Task<IActionResult> Register([FromForm] SignUp_Customer model)
     {
         if (!ModelState.IsValid)
@@ -78,10 +81,9 @@ public class AuthController : ControllerBase
         return Content("Issue Occur in Signing you up, Try Again!");
     }
 
-
-
+    
     [AllowAnonymous]
-    [HttpGet("user/login")]
+    [HttpGet("c/user/login")]
     public async Task<IActionResult> Login([Required] string Email, [Required] string Password)
     {
         if (string.IsNullOrWhiteSpace(Email)) return BadRequest("Email Required!");
@@ -105,8 +107,9 @@ public class AuthController : ControllerBase
 
         return Ok(loginresponse);
     }
-
-    [HttpGet("otpverification")]
+    
+    
+    [HttpGet("c/otpverification")]
     [AllowAnonymous]
     public async Task<IActionResult> VerifyOtp(int otp, string email)
     {
@@ -124,7 +127,114 @@ public class AuthController : ControllerBase
         return Ok("Verified!");
 
     }
+    
+    
+    [HttpPost("c/booking")]
+    [AllowAnonymous]
+    public async Task<IActionResult> postBooking(BookRideDTO request)
+    {
+        RideBookingModel model = new()
+        {
+            id = Guid.NewGuid().ToString(),
+            CustomerId = request.CustomerId,
+            pLatitude = request.PickUpLatitude,
+            pLongitude = request.PickUpLongitude,
+            dLatitude = request.DestinationLatitude,
+            dLongitude = request.DestinationLongitude,
+            objectDataType = request.ObjectDataType,
+            Comments = request.Comments,
+            DateVal = request.Date,
+            TimeVal = request.Time,
+            Price = request.Price
+        };
 
+        await _rideBookingData.BookRideByCustomemr(model);
+        return Ok();
+    }
+
+    [AllowAnonymous]
+    [HttpGet("c/Booking/{id}")]
+    public async Task<IActionResult> GetById(string id)
+    {
+        var response = await _rideBookingData.GetById(id);
+        if (response?.CustomerId != 1)
+        {
+            return Content($"Booking {id} not Found!");
+        }
+        return Ok(response);
+    }
+    
+    [AllowAnonymous]
+    [HttpGet("c/Booking")]
+    public async Task<IActionResult> GetById()
+    {
+        var response = await _rideBookingData.GetAll();
+        if (response?.Count() == 0)
+        {
+            return Content($"No Booking Available!");
+        }
+        return Ok(response);
+    }
+    
+    
+    [HttpPost("d/r/SignUp")]
+    public async Task<IActionResult> Register([FromForm] CreateDriverSignup request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest("Model is Not Valid");
+        }
+        bool checkRegisteredEmail = await _logic.
+            CheckDriverOnEmail(request?.Email!);
+        if (checkRegisteredEmail)
+        {
+            return Content("Email Already Registered!");
+        }
+
+        DriverModel model = new()
+        {
+            ID = Guid.NewGuid().ToString(), 
+            Email = request.Email, 
+            password = request.Password, 
+            Category = request.Category, 
+            Cities = request.Cities, 
+            Country = request.Country,
+            Type = request.Type, 
+            CnicFront = UploadImageFunction(request.CnicFront!), 
+            CnicBack = UploadImageFunction(request.CnicBack!) ,
+            CnicNumber = request.CnicNumber,
+            Username = request.Username,
+            IsActive = true,
+            CreatedDate = DateTime.UtcNow.ToString(),
+            NumberPlate = request.NumberPlate,
+            LicenseNumber = request.LicenseNumber,
+            ProfileImage = UploadImageFunction(request.ProfileImage!),
+            LiFront =UploadImageFunction(request.LicenseFront!) ,
+            LiBack = UploadImageFunction(request.LicenseBack!)
+        };
+
+        await _logic.SignUpDriver(model);
+        var response = await _logic.GetDriverOnEmail(model.Email!);
+        
+        MailClassModel mailClassModel = new()
+        {
+            ToMailIds =  new() { response.Email! },
+            Body = GetBodySendOtp(_otpService.GenerateOTP(), request.Email!),
+            Subject = "OTP 'ONE TIME PASSWORD!'",
+            IsHtmlBody = false,
+        };
+
+
+        string mailResponse = await _mailService.Sendmail(mailClassModel, _configuration["Credentials:EmailToSendMail"]!,
+            _configuration["Credentials:Password"]!);
+
+        if (mailResponse.Equals("Mail Sent Succefully!"))
+            return Ok(response);
+
+        return BadRequest("Mail Not Sent Successfully!");
+    }
+
+    
     private string GenerateJwt(string userId, string email, string role)
     {
         SymmetricSecurityKey securityKey =
@@ -151,8 +261,6 @@ public class AuthController : ControllerBase
         return data;
     }
 
-
-
     private string UploadImageFunction(IFormFile ImageFile)
     {
 
@@ -171,8 +279,11 @@ public class AuthController : ControllerBase
         }
         return saveData;
     }
-    private string GetBodySendOtp(int generateOtp)
-    {
-        return $"your Otp is {generateOtp}";
-    }
+    private string GetBodySendOtp(int generateOtp) => 
+        $"your Otp is {generateOtp}";
+    private string GetBodySendOtp(int generateOtp, string requestEmail) => 
+        $"your Email: {requestEmail} Otp is {generateOtp}";
+    
+
+
 }

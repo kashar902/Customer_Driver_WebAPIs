@@ -1,9 +1,9 @@
 using System.Net;
 using System.Net.Mail;
-using DAL.GlobalModels;
-using DAL.IServices;
+using DataAccessLayer.GlobalModels;
+using DataAccessLayer.IServices;
 
-namespace DAL.Services;
+namespace DataAccessLayer.Services;
 
 public class MailService : IMailService
 {

@@ -2,8 +2,8 @@ using System.Runtime.CompilerServices;
 using BL.DataModel.IBusinessLogic;
 using BL.Models;
 using BL.Models.DTOs;
-using DAL.GlobalModels;
-using DAL.IServices;
+using DataAccessLayer.GlobalModels;
+using DataAccessLayer.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FYP_Project.Controllers;
