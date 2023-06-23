@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FYP_Project", "FYP_Project.csproj", "{04CAAAA9-A86F-4CBC-8296-A1E3D9042F24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FYP_Project", "FYP_Project.csproj", "{04CAAAA9-A86F-4CBC-8296-A1E3D9042F24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BL", "..\BL\BL.csproj", "{C2C09489-58A0-4DF3-B060-B5CB79641037}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BL", "..\BL\BL.csproj", "{C2C09489-58A0-4DF3-B060-B5CB79641037}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "..\DataAccessLayer\DataAccessLayer.csproj", "{E59BA080-4E3A-4723-A789-7D7B5FCD5E5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayer", "..\DataAccessLayer\DataAccessLayer.csproj", "{E59BA080-4E3A-4723-A789-7D7B5FCD5E5C}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{4EC6CADC-3B69-46BA-BAB4-ADDC9AA72715}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{E59BA080-4E3A-4723-A789-7D7B5FCD5E5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E59BA080-4E3A-4723-A789-7D7B5FCD5E5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E59BA080-4E3A-4723-A789-7D7B5FCD5E5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EC6CADC-3B69-46BA-BAB4-ADDC9AA72715}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EC6CADC-3B69-46BA-BAB4-ADDC9AA72715}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EC6CADC-3B69-46BA-BAB4-ADDC9AA72715}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EC6CADC-3B69-46BA-BAB4-ADDC9AA72715}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

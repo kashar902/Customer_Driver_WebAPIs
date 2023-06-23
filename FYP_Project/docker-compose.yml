@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  fyp_project:
+    image: ${DOCKER_REGISTRY-}fypproject
+    build:
+      context: .
+      dockerfile: Dockerfile

@@ -2,8 +2,10 @@ namespace BL.Models;
 
 public class RideBookingModel
 {
-    public string id { get; set; }
+    public string? id { get; set; }
     public int? CustomerId { get; set; }
+    public string? PickUpLocation { get; set; }
+    public string? DestinationLocation { get; set; }
     public decimal? pLatitude { get; set; }
     public decimal? pLongitude { get; set; }
     public decimal? dLatitude { get; set; }
@@ -15,4 +17,5 @@ public class RideBookingModel
     public int Price { get; set; }
     public int? Status { get; set; }
     public string? CreatedDate { get; set; }
+    public string? Attachments { get; set; }
 }
