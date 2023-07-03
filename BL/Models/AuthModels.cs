@@ -43,3 +43,11 @@ public class Login
     public string? Token { get; set; }
     public string? RoleName { get; set; } = "Student";
 }
+public class LoginResponseDriver
+{
+    public string? UserId { get; set; }
+    public string? Email { get; set; }
+    public string? Password { get; set; }
+    public string? Token { get; set; }
+    public string? RoleName { get; set; } = "Driver";
+}

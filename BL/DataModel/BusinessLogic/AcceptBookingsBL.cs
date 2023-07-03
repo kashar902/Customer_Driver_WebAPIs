@@ -1,4 +1,5 @@
-﻿using BL.Models;
+﻿using BL.DataModel.IBusinessLogic;
+using BL.Models;
 using DataAccessLayer.IServices;
 
 namespace BL.DataModel.BusinessLogic;
@@ -23,9 +24,12 @@ public class AcceptBookingsBL : IAcceptBookingsBL
         });
         return "Success";
     }
-}
 
-public interface IAcceptBookingsBL
-{
-    Task<string> AcceptBooking(AcceptBookingDTO model);
+    public async Task<string> DeclineBooking(AcceptBookingDTO model)
+    {
+        await _services.SaveData("[dbo].[sp_SaveAcceptBookingByDriver]",
+            new
+            { model.BookingId, model.DriverId });
+        return "Declined!";
+    }
 }

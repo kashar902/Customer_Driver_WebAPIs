@@ -9,4 +9,6 @@ public interface IRideBookingByCustomer
     Task<IEnumerable<RideBookingModel>> GetAll();
 
     Task<RideBookingModel?> GetById(string id);
+
+    Task<RideBookingModel?> GetLastRecord();
 }

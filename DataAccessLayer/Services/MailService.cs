@@ -31,7 +31,7 @@ public class MailService : IMailService
                     smtp.Credentials = new NetworkCredential(email, password);
                     smtp.EnableSsl = true;
                     await smtp.SendMailAsync(mail);
-                    return "Mail Sent Succefully!";
+                    return "Mail Sent Successfully!";
                 }
             }
         }

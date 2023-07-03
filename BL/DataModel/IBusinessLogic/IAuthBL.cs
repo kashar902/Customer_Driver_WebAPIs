@@ -5,7 +5,7 @@ namespace BL.DataModel.IBusinessLogic;
 
 public interface IAuthBL
 {
-    Task<Login?> GetDataforAuth(string email, string password);
+    Task<Login?> GetDataForAuth(string email, string password);
 
     Task SignUpCustomer(SignUp_CustomerModel model);
 

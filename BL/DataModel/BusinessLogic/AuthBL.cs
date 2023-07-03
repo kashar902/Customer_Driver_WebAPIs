@@ -5,50 +5,50 @@ using DataAccessLayer.IServices;
 
 namespace BL.DataModel.BusinessLogic;
 
-public class AuthBL : IAuthBL
+public class AuthBl : IAuthBL
 {
     private readonly IGenericCrudService? _service;
-    private static string Sp_ForLoginWithEmailAndPassword { get; } = "Sp_ForLoginWithEmailAndPassword";
-    private static string Sp_InsertSignUpCustomer { get; } = "Sp_InsertSignUpCustomer";
-    private static string Sp_GetDataOnEmail { get; } = "[dbo].[Sp_GetDataOnEmail]";
-    private static string Sp_EmailVerification { get; } = "[dbo].[Sp_EmailVerification]";
+    private static string SpForLoginWithEmailAndPassword { get; } = "Sp_ForLoginWithEmailAndPassword";
+    private static string SpInsertSignUpCustomer { get; } = "Sp_InsertSignUpCustomer";
+    private static string SpGetDataOnEmail { get; } = "[dbo].[Sp_GetDataOnEmail]";
+    private static string SpEmailVerification { get; } = "[dbo].[Sp_EmailVerification]";
     private static string GetCustomerById { get; } = "[dbo].[GetCustomerById]";
 
 
-    public AuthBL(IGenericCrudService service)
+    public AuthBl(IGenericCrudService service)
     {
         _service = service;
     }
 
 
-    public async Task<Login?> GetDataforAuth(string email, string password)
+    public async Task<Login?> GetDataForAuth(string email, string password)
     {
         var result = await _service!.LoadData<Login, dynamic>(
-            Sp_ForLoginWithEmailAndPassword,
+            SpForLoginWithEmailAndPassword,
             new { email, password });
 
         return result.FirstOrDefault();
     }
 
-    public async Task<SignUp_CustomerModel?> GetByIdCustomer(int Id)
+    public async Task<SignUp_CustomerModel?> GetByIdCustomer(int id)
     {
         var result = await _service!.LoadData<SignUp_CustomerModel, dynamic>(
             GetCustomerById,
-            new { Id });
+            new { Id = id });
 
         return result.FirstOrDefault();
     }
 
     public async Task SignUpCustomer(SignUp_CustomerModel model)
     {
-        await _service!.SaveData(Sp_InsertSignUpCustomer,
+        await _service!.SaveData(SpInsertSignUpCustomer,
            new { model.Username, model.Email, model.Password, model.ProfileImage });
     }
 
     public async Task<SignUp_CustomerResponse?> GetDataOnEmail(string email)
     {
         var result = await _service!.LoadData<SignUp_CustomerResponse, dynamic>(
-            Sp_GetDataOnEmail,
+            SpGetDataOnEmail,
             new { email });
 
         return result.FirstOrDefault();
@@ -56,7 +56,7 @@ public class AuthBL : IAuthBL
     public async Task<SignUp_CustomerResponse?> UpdateEmailStatus(string email)
     {
         var result = await _service!.LoadData<SignUp_CustomerResponse, dynamic>(
-            Sp_EmailVerification,
+            SpEmailVerification,
             new { email });
 
         return result.FirstOrDefault();

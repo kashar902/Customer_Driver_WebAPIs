@@ -6,10 +6,10 @@ public class RideBookingModel
     public int? CustomerId { get; set; }
     public string? PickUpLocation { get; set; }
     public string? DestinationLocation { get; set; }
-    public decimal? pLatitude { get; set; }
-    public decimal? pLongitude { get; set; }
-    public decimal? dLatitude { get; set; }
-    public decimal? dLongitude { get; set; }
+    //public decimal? pLatitude { get; set; }
+    //public decimal? pLongitude { get; set; }
+    //public decimal? dLatitude { get; set; }
+    //public decimal? dLongitude { get; set; }
     public string? objectDataType { get; set; }
     public string? Comments { get; set; }
     public string? DateVal { get; set; }
